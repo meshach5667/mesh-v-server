@@ -38,6 +38,11 @@ app.get('/api', (req, res) => {
   res.json({ status: 'running', service: 'ShieldNet API' });
 });
 
+app.get('/', (req, res) => {
+  res.json({ status: 'running', service: 'ShieldNet API' });
+});
+
+
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/incidents', incidentRoutes);

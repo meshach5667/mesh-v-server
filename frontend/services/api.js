@@ -1,10 +1,19 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const API_BASE_URL = (process.env.EXPO_PUBLIC_BACKEND_URL || 'http://localhost:4000/api').replace(/\/$/, '');
+const API_BASE_URL = (process.env.EXPO_PUBLIC_BACKEND_URL || 'https://mesh-v-server.vercel.app/api').replace(/\/$/, '');
 
 const buildUrl = (path) => `${API_BASE_URL}${path.startsWith('/') ? path : `/${path}`}`;
 
 const getToken = async () => AsyncStorage.getItem('authToken');
+
+const parseResponse = async (response) => {
+  const contentType = response.headers.get('content-type') || '';
+  if (contentType.includes('application/json')) {
+    return response.json();
+  }
+  const text = await response.text();
+  return text ? { message: text } : {};
+};
 
 const apiRequest = async (path, { method = 'GET', body, auth = true } = {}) => {
   const headers = {
@@ -18,17 +27,28 @@ const apiRequest = async (path, { method = 'GET', body, auth = true } = {}) => {
     }
   }
 
-  const response = await fetch(buildUrl(path), {
-    method,
-    headers,
-    body: body ? JSON.stringify(body) : undefined,
-  });
+  const url = buildUrl(path);
 
-  const data = await response.json().catch(() => ({}));
+  let response;
+  try {
+    response = await fetch(url, {
+      method,
+      headers,
+      body: body ? JSON.stringify(body) : undefined,
+    });
+  } catch (error) {
+    const networkError = new Error(`Network request failed for ${url}`);
+    networkError.cause = error;
+    throw networkError;
+  }
+
+  const data = await parseResponse(response);
 
   if (!response.ok) {
-    const error = new Error(data.message || 'Request failed');
+    const errorMessage = data.message || `Request failed with status ${response.status}`;
+    const error = new Error(errorMessage);
     error.status = response.status;
+    error.url = url;
     throw error;
   }
 

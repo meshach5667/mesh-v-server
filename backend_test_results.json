@@ -1,0 +1,125 @@
+{
+  "summary": {
+    "passed": 13,
+    "total": 13,
+    "success_rate": "100.0%",
+    "timestamp": "2026-03-11T21:28:37.268380"
+  },
+  "tests": [
+    {
+      "test": "Health Check",
+      "success": true,
+      "message": "API is running correctly",
+      "timestamp": "2026-03-11T21:28:27.705628",
+      "data": {
+        "message": "ShieldNet API v1.0",
+        "status": "running"
+      }
+    },
+    {
+      "test": "User Registration",
+      "success": true,
+      "message": "User registered successfully",
+      "timestamp": "2026-03-11T21:28:28.212846",
+      "data": {
+        "message": "User registered successfully",
+        "user_id": "69b1de7c7331e5f1ecc1c539"
+      }
+    },
+    {
+      "test": "Location Update (No Auth)",
+      "success": true,
+      "message": "Correctly rejected unauthorized request",
+      "timestamp": "2026-03-11T21:28:28.716023",
+      "data": null
+    },
+    {
+      "test": "Location Update (Mock Auth)",
+      "success": true,
+      "message": "Auth validation working - rejected invalid token",
+      "timestamp": "2026-03-11T21:28:29.219862",
+      "data": null
+    },
+    {
+      "test": "Create Incident (No Auth)",
+      "success": true,
+      "message": "Correctly rejected unauthorized request",
+      "timestamp": "2026-03-11T21:28:29.723231",
+      "data": null
+    },
+    {
+      "test": "Create Incident (Mock Auth)",
+      "success": true,
+      "message": "Auth validation working for incident creation",
+      "timestamp": "2026-03-11T21:28:30.226928",
+      "data": null
+    },
+    {
+      "test": "Get All Incidents",
+      "success": true,
+      "message": "Retrieved 0 incidents",
+      "timestamp": "2026-03-11T21:28:30.731847",
+      "data": {
+        "count": 0
+      }
+    },
+    {
+      "test": "Get Nearby Incidents (No Auth)",
+      "success": true,
+      "message": "Correctly rejected unauthorized request",
+      "timestamp": "2026-03-11T21:28:31.234975",
+      "data": null
+    },
+    {
+      "test": "Get Nearby Incidents (Mock Auth)",
+      "success": true,
+      "message": "Auth validation working for nearby incidents",
+      "timestamp": "2026-03-11T21:28:31.738148",
+      "data": null
+    },
+    {
+      "test": "Get Hotspots",
+      "success": true,
+      "message": "Retrieved 0 hotspots",
+      "timestamp": "2026-03-11T21:28:32.243254",
+      "data": {
+        "count": 0
+      }
+    },
+    {
+      "test": "WebSocket Connection",
+      "success": true,
+      "message": "WebSocket connection successful",
+      "timestamp": "2026-03-11T21:28:35.746084",
+      "data": null
+    },
+    {
+      "test": "Geospatial Query (1km radius)",
+      "success": true,
+      "message": "Query successful, 0 results",
+      "timestamp": "2026-03-11T21:28:36.251634",
+      "data": null
+    },
+    {
+      "test": "Geospatial Query (5km radius)",
+      "success": true,
+      "message": "Query successful, 0 results",
+      "timestamp": "2026-03-11T21:28:36.255783",
+      "data": null
+    },
+    {
+      "test": "Geospatial Query (10km radius)",
+      "success": true,
+      "message": "Query successful, 0 results",
+      "timestamp": "2026-03-11T21:28:36.259573",
+      "data": null
+    },
+    {
+      "test": "MongoDB Connection",
+      "success": true,
+      "message": "MongoDB connection and queries working",
+      "timestamp": "2026-03-11T21:28:36.767904",
+      "data": null
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+app/(tabs)/alerts.tsx(73,28): error TS2345: Argument of type '{ id: string; }[]' is not assignable to parameter of type 'SetStateAction<Incident[]>'.
+  Type '{ id: string; }[]' is not assignable to type 'Incident[]'.
+    Type '{ id: string; }' is missing the following properties from type 'Incident': description, latitude, longitude, severity
+app/(tabs)/alerts.tsx(92,7): error TS2345: Argument of type 'number' is not assignable to parameter of type 'null | undefined'.
+app/(tabs)/alerts.tsx(95,8): error TS7006: Parameter 'incidents' implicitly has an 'any' type.
+app/(tabs)/alerts.tsx(165,73): error TS7006: Parameter 'notification' implicitly has an 'any' type.
+app/(tabs)/map.tsx(53,9): error TS2345: Argument of type 'number' is not assignable to parameter of type 'null | undefined'.
+app/(tabs)/map.tsx(56,10): error TS7006: Parameter 'updatedIncidents' implicitly has an 'any' type.
+app/(tabs)/map.tsx(78,11): error TS2345: Argument of type 'number' is not assignable to parameter of type 'null | undefined'.
+app/(tabs)/map.tsx(82,22): error TS2345: Argument of type '{ id: string; }[]' is not assignable to parameter of type 'SetStateAction<Incident[]>'.
+  Type '{ id: string; }[]' is not assignable to type 'Incident[]'.
+    Type '{ id: string; }' is missing the following properties from type 'Incident': description, latitude, longitude, severity, status
+app/(tabs)/map.tsx(172,9): error TS2345: Argument of type '"Emergency SOS triggered"' is not assignable to parameter of type 'null | undefined'.
+app/(tabs)/report.tsx(148,9): error TS2345: Argument of type '"Emergency SOS triggered"' is not assignable to parameter of type 'null | undefined'.

@@ -14,7 +14,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLocation } from '../../contexts/LocationContext';
-import { subscribeToIncidents, createEmergencyIncident, getIncidents } from '../../services/api';
+import { subscribeToIncidents, getIncidents } from '../../services/api';
 
 interface Incident {
   id: string;
@@ -34,7 +34,6 @@ export default function MapScreen() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [selectedIncident, setSelectedIncident] = useState<Incident | null>(null);
-  const [sosSubmitting, setSosSubmitting] = useState(false);
   const { user, loading: authLoading } = useAuth();
   const { location, requestLocation } = useLocation();
 
@@ -148,59 +147,6 @@ export default function MapScreen() {
     await Linking.openURL(url);
   };
 
-  const sendEmergencyIncident = async () => {
-    if (sosSubmitting) return;
-
-    if (!location) {
-      Alert.alert('Location required', 'Enable location to send an SOS alert.');
-      await requestLocation();
-      return;
-    }
-
-    if (!user || authLoading) {
-      Alert.alert('Error', 'You must be signed in to send an SOS alert.');
-      return;
-    }
-
-    try {
-      setSosSubmitting(true);
-      
-      // Create emergency incident
-      const result = await createEmergencyIncident(
-        user.id,
-        location.coords.latitude,
-        location.coords.longitude,
-        'Emergency SOS triggered'
-      );
-
-      if (result.ok) {
-        Alert.alert(
-          'SOS Sent',
-          'Emergency alert sent. Nearby users have been notified.',
-          [{ text: 'OK' }]
-        );
-      } else {
-        Alert.alert('Error', result.message || 'Failed to send SOS alert');
-      }
-    } catch (error: any) {
-      console.error('Error sending SOS alert:', error);
-      Alert.alert('Error', error.message || 'Failed to send SOS alert. Please try again.');
-    } finally {
-      setSosSubmitting(false);
-    }
-  };
-
-  const handleSOSPress = () => {
-    if (sosSubmitting) return;
-    Alert.alert(
-      'Send SOS?',
-      'This will send a critical alert with your location to nearby users.',
-      [
-        { text: 'Cancel', style: 'cancel' },
-        { text: 'Send SOS', style: 'destructive', onPress: sendEmergencyIncident },
-      ]
-    );
-  };
 
   if (loading) {
     return (
@@ -273,22 +219,6 @@ export default function MapScreen() {
         )}
       </View>
 
-      <View style={styles.sosContainer} pointerEvents="box-none">
-        <TouchableOpacity
-          style={[styles.sosButton, sosSubmitting && styles.sosButtonDisabled]}
-          onPress={handleSOSPress}
-          disabled={sosSubmitting}
-        >
-          {sosSubmitting ? (
-            <ActivityIndicator color="#fff" />
-          ) : (
-            <>
-              <Ionicons name="radio-button-on" size={22} color="#fff" />
-              <Text style={styles.sosButtonText}>SOS</Text>
-            </>
-          )}
-        </TouchableOpacity>
-      </View>
 
       <ScrollView
         style={styles.incidentList}
@@ -544,36 +474,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#4A90E2',
     fontWeight: '600',
-  },
-  sosContainer: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 20,
-    alignItems: 'center',
-  },
-  sosButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    backgroundColor: '#D32F2F',
-    borderRadius: 999,
-    paddingHorizontal: 28,
-    paddingVertical: 14,
-    elevation: 6,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.25,
-    shadowRadius: 6,
-  },
-  sosButtonDisabled: {
-    opacity: 0.6,
-  },
-  sosButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '700',
-    letterSpacing: 1,
   },
   emptyState: {
     alignItems: 'center',

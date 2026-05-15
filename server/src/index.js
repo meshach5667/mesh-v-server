@@ -34,6 +34,16 @@ app.use(
   })
 );
 
+app.use(async (req, res, next) => {
+  try {
+    await connectDatabase();
+    next();
+  } catch (error) {
+    console.error('Database connection error:', error);
+    res.status(500).json({ message: 'Database connection failed' });
+  }
+});
+
 app.get('/api', (req, res) => {
   res.json({ status: 'running', service: 'ShieldNet API' });
 });

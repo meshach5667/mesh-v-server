@@ -28,6 +28,7 @@ interface Incident {
   created_at?: any;
 }
 
+
 if (Notifications) {
   Notifications.setNotificationHandler({
     handleNotification: async () => ({

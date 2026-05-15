@@ -55,12 +55,19 @@ initWebsocket(server);
 
 const start = async () => {
   await connectDatabase();
-  server.listen(env.port, () => {
-    console.log(`ShieldNet API listening on port ${env.port}`);
-  });
+  
+  if (!process.env.VERCEL) {
+    server.listen(env.port, () => {
+      console.log(`ShieldNet API listening on port ${env.port}`);
+    });
+  }
 };
 
 start().catch((error) => {
   console.error('Failed to start server:', error);
-  process.exit(1);
+  if (!process.env.VERCEL) {
+    process.exit(1);
+  }
 });
+
+module.exports = app;
